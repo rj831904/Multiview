@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Guides — MultiViewer | YouTube Multi Viewer Tool</title>
+    <meta name="description" content="Tips, guides, and insights for YouTube creators and multi-screen viewers. Learn how to boost watch time, compare formats, and maximize productivity.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --text: #ffffff;
+            --accent: #38bdf8;
+            --primary: #FF3D3D;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* ── Header ── */
+        header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 8px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            text-align: center;
+            padding: 72px 24px 48px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ── Article Grid ── */
+        .articles-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 36px 28px 28px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.25);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        .article-icon.blue   { background: rgba(56, 189, 248, 0.15); }
+        .article-icon.red    { background: rgba(255, 61, 61, 0.15); }
+        .article-icon.green  { background: rgba(52, 211, 153, 0.15); }
+        .article-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .article-icon.orange { background: rgba(251, 146, 60, 0.15); }
+        .article-icon.cyan   { background: rgba(34, 211, 238, 0.15); }
+
+        .article-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            color: var(--text);
+        }
+
+        .article-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .read-more:hover {
+            gap: 10px;
+            color: #7dd3fc;
+        }
+
+        /* ── Footer ── */
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--card-border);
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 960px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 22px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.97);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                flex-direction: column;
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--card-border);
+                gap: 4px;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            nav a {
+                width: 100%;
+                padding: 12px 14px;
+            }
+
+            .hero {
+                padding: 48px 20px 32px;
+            }
+
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .articles-section {
+                padding-bottom: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">🚀 MultiViewer</a>
+            <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html">Multi Viewer</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Blog &amp; Guides</h1>
+        <p>Practical tips, in-depth guides, and creator insights to help you get the most out of multi-screen viewing and grow your YouTube presence.</p>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="articles-section">
+        <div class="articles-grid">
+
+            <!-- Article 1 -->
+            <div class="article-card">
+                <div class="article-icon blue">📺</div>
+                <h3>How to Watch Multiple YouTube Videos at Once (2026 Guide)</h3>
+                <p>Discover the easiest ways to watch two, four, or even eight YouTube videos simultaneously — no extensions required. Perfect for sports fans, traders, and multitaskers.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="article-card">
+                <div class="article-icon red">🛠️</div>
+                <h3>Best Free YouTube Tools for Small Creators</h3>
+                <p>A curated list of free tools that help small creators optimize thumbnails, research keywords, schedule uploads, and analyze performance without spending a dime.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+            <!-- Article 3 -->
+            <div class="article-card">
+                <div class="article-icon green">⏱️</div>
+                <h3>How to Increase YouTube Watch Time — Complete Guide</h3>
+                <p>Watch time is the number-one ranking factor on YouTube. Learn proven strategies to keep viewers engaged longer and push your content into recommended feeds.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+            <!-- Article 4 -->
+            <div class="article-card">
+                <div class="article-icon purple">⚡</div>
+                <h3>YouTube Shorts vs Long Videos: Which Grows Faster?</h3>
+                <p>We break down the pros and cons of Shorts versus long-form content in 2026 — subscriber growth, revenue potential, algorithm reach, and the best hybrid strategy.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+            <!-- Article 5 -->
+            <div class="article-card">
+                <div class="article-icon orange">🌐</div>
+                <h3>10 Browser Tips for Content Creators</h3>
+                <p>From keyboard shortcuts that save hours to tab management and built-in dev tools, these browser tips will streamline your creative workflow every single day.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+            <!-- Article 6 -->
+            <div class="article-card">
+                <div class="article-icon cyan">🖥️</div>
+                <h3>Multi-Screen Viewing: The Ultimate Productivity Hack</h3>
+                <p>Whether you're monitoring live streams, comparing tutorials, or tracking multiple channels, multi-screen viewing can double your efficiency. Here's how to set it up.</p>
+                <a href="#" class="read-more">Read More →</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MultiViewer. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
