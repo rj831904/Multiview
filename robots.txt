@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rj831904.github.io/Multiview/sitemap.xml
